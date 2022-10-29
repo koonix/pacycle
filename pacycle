@@ -1,0 +1,32 @@
+#!/bin/bash
+# This is free and unencumbered software released into the public domain.
+# See the LICENSE file for details.
+
+# Cycle the default audio output device of pulseaudio.
+# Usage:
+#  $ pacycle
+
+unset first current next
+
+while IFS= read -r index; do
+    case $index in
+        *index:*)
+            # skip over aloop, remap and null devices/modules
+            read -r name
+            read -r driver
+            case $name in *aloop*) continue ;; esac
+            case $driver in *-remap-*|*-null-*) continue ;; esac
+
+            [[ -z $first ]] && first=$index
+            if [[ -z $current ]]; then
+                case $index in *' * '*) current=$index ;; esac
+            else
+                next=$index
+                break
+            fi
+        ;;
+    esac
+done <<< "$(pacmd list-sinks)"
+
+next=${next:-$first} # if there is no next sink, wrap around to the first one
+pacmd set-default-sink "${next##* }"
