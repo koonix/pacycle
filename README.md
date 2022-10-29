@@ -15,6 +15,12 @@ git clone https://github.com/ghesy/pacycle.git
 sudo make install
 ```
 
+### Uninstall
+
+``` sh
+sudo make uninstall
+```
+
 ### ArchLinux
 
 There is a [package](https://aur.archlinux.org/packages/pacycle) on the AUR:
