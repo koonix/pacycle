@@ -12,6 +12,7 @@ pacycle
 
 ``` sh
 git clone https://github.com/ghesy/pacycle.git
+cd pacycle
 sudo make install
 ```
 
